@@ -1,0 +1,126 @@
+---
+import { Image } from 'astro:assets';
+import imgBodaCampestre from '../assets/images/bodascampestreszonae_tu_san_agustin_lugares_para_eventos_historias_006.webp';
+import imgFiesta15 from '../assets/images/fiestade15anosvivaldi_tu_san_agustin_lugares_para_eventos_historias_007.webp';
+import imgBodaHacienda from '../assets/images/bodahaciendaelromeral_tu_san_agustin_lugares_para_eventos_historias_008.webp';
+---
+
+<div class="bg-[#FDF5E9] py-16"> <!-- Light background to differentiate or match design -->
+    <div class="max-w-7xl mx-auto px-4 md:px-16">
+        <h2 class="text-3xl md:text-5xl text-center mb-2 font-poppins font-bold leading-tight">
+            <span class="text-[#4EAC9F]">Detrás</span> <span class="text-[#333638]">de cada Evento</span>
+        </h2>
+        <h3 class="text-3xl md:text-5xl text-center mb-12 font-poppins font-bold text-[#4EAC9F]">
+             Hay una historia
+        </h3>
+
+        <div class="relative w-full group">
+            
+            <button class="swiper-prev-stories absolute left-0 md:-left-20 top-[40%] -translate-y-1/2 z-50 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center hover:bg-gray-50 transition-all border border-gray-100 text-gray-800 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            
+            <button class="swiper-next-stories absolute right-0 md:-right-20 top-[40%] -translate-y-1/2 z-50 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center hover:bg-gray-50 transition-all border border-gray-100 text-gray-800 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+
+            <div class="swiper swiperStories !p-6">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide text-center">
+                    <div class="mb-2 h-20 flex flex-col justify-start items-center">
+                        <h3 class="text-xl font-bold text-[#333638] font-poppins">Bodas Campestres</h3>
+                        <p class="text-[#333638] text-sm font-poppins">Tu San Agustín Zona E</p>
+                    </div>
+                        <div class="relative w-full h-64 rounded-[32px] overflow-hidden mb-6 shadow-md">
+                            <Image src={imgBodaCampestre} alt="Bodas Campestres" class="w-full h-full object-cover" />
+                        </div>
+                        <a href="#" class="inline-block bg-[#4EAC9F] text-white px-8 py-2 rounded-full font-poppins text-sm hover:bg-opacity-90 transition-all">Ver más</a>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide text-center">
+                         <div class="mb-2 h-20 flex flex-col justify-start items-center">
+                            <h3 class="text-xl font-bold text-[#333638] font-poppins">Fiesta de 15 Años</h3>
+                            <p class="text-[#333638] text-xs font-poppins leading-tight">Centro de Eventos<br>Salón Vivaldi, Laureles</p>
+                        </div>
+                        <div class="relative w-full h-64 rounded-[32px] overflow-hidden mb-6 shadow-md">
+                            <Image src={imgFiesta15} alt="Fiesta de 15 Años" class="w-full h-full object-cover" />
+                        </div>
+                        <a href="#" class="inline-block bg-[#4EAC9F] text-white px-8 py-2 rounded-full font-poppins text-sm hover:bg-opacity-90 transition-all">Ver más</a>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide text-center">
+                    <div class="mb-2 h-20 flex flex-col justify-start items-center">
+                             <h3 class="text-xl font-bold text-[#333638] font-poppins">Boda Hacienda</h3>
+                            <p class="text-[#333638] text-sm font-poppins">El Romeral</p>
+                        </div>
+                        <div class="relative w-full h-64 rounded-[32px] overflow-hidden mb-6 shadow-md">
+                            <Image src={imgBodaHacienda} alt="Boda Hacienda" class="w-full h-full object-cover" />
+                        </div>
+                        <a href="#" class="inline-block bg-[#4EAC9F] text-white px-8 py-2 rounded-full font-poppins text-sm hover:bg-opacity-90 transition-all">Ver más</a>
+                    </div>
+                    
+                    
+                    <!-- Duplicates for Loop -->
+                    <div class="swiper-slide text-center">
+                    <div class="mb-2 h-20 flex flex-col justify-start items-center">
+                        <h3 class="text-xl font-bold text-[#333638] font-poppins">Bodas Campestres</h3>
+                        <p class="text-[#333638] text-sm font-poppins">Tu San Agustín Zona E</p>
+                    </div>
+                         <div class="relative w-full h-64 rounded-[32px] overflow-hidden mb-6 shadow-md">
+                            <Image src={imgBodaCampestre} alt="Bodas Campestres" class="w-full h-full object-cover" />
+                        </div>
+                        <a href="#" class="inline-block bg-[#4EAC9F] text-white px-8 py-2 rounded-full font-poppins text-sm hover:bg-opacity-90 transition-all">Ver más</a>
+                    </div>
+
+                    <div class="swiper-slide text-center">
+                         <div class="mb-2 h-20 flex flex-col justify-start items-center">
+                            <h3 class="text-xl font-bold text-[#333638] font-poppins">Fiesta de 15 Años</h3>
+                            <p class="text-[#333638] text-xs font-poppins leading-tight">Centro de Eventos<br>Salón Vivaldi, Laureles</p>
+                        </div>
+                        <div class="relative w-full h-64 rounded-[32px] overflow-hidden mb-6 shadow-md">
+                            <Image src={imgFiesta15} alt="Fiesta de 15 Años" class="w-full h-full object-cover" />
+                        </div>
+                         <a href="#" class="inline-block bg-[#4EAC9F] text-white px-8 py-2 rounded-full font-poppins text-sm hover:bg-opacity-90 transition-all">Ver más</a>
+                    </div>
+
+                    <div class="swiper-slide text-center">
+                    <div class="mb-2 h-20 flex flex-col justify-start items-center">
+                             <h3 class="text-xl font-bold text-[#333638] font-poppins">Boda Hacienda</h3>
+                            <p class="text-[#333638] text-sm font-poppins">El Romeral</p>
+                        </div>
+                        <div class="relative w-full h-64 rounded-[32px] overflow-hidden mb-6 shadow-md">
+                            <Image src={imgBodaHacienda} alt="Boda Hacienda" class="w-full h-full object-cover" />
+                        </div>
+                        <a href="#" class="inline-block bg-[#4EAC9F] text-white px-8 py-2 rounded-full font-poppins text-sm hover:bg-opacity-90 transition-all">Ver más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+        </div>
+</div>
+
+<style>
+    .swiper { width: 100%; height: auto; }
+    .swiper-slide { 
+        height: auto; 
+        user-select: none;
+        will-change: transform;
+    }
+    
+    .swiper-prev-stories, .swiper-next-stories {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 48px;
+        height: 48px;
+    }
+
+    img { pointer-events: none; }
+</style>
+
+<script src="../scripts/slider-stories.js"></script>

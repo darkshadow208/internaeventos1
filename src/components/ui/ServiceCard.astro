@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+    title: string;
+    description?: string;
+    image: string | any;
+    variant?: 'default' | 'blog';
+    url?: string;
+    width?: number;
+    height?: number;
+    loading?: 'lazy' | 'eager';
+    fetchpriority?: 'high' | 'low' | 'auto';
+    borderColor?: string;
+    largeArrow?: boolean;
+    titleColor?: string;
+}
+
+const { 
+    title, 
+    description, 
+    image, 
+    variant = 'default', 
+    url = '#', 
+    width = 450, 
+    height = 450,
+    loading = 'lazy',
+    fetchpriority = 'auto',
+    borderColor = '#FDF5E9',
+    largeArrow = false,
+    titleColor = '#4EAC9F'
+} = Astro.props;
+const isBlog = variant === 'blog';
+
+// Check if image is an imported asset (object) or a string
+const isAsset = typeof image !== 'string';
+---
+
+<div class="swiper-slide group cursor-grab active:cursor-grabbing pb-12 text-center">
+    <div class="relative w-full h-80 md:h-64 mb-6">
+        <a href={url} class="block w-full h-full rounded-[32px] overflow-hidden">
+            {isAsset ? (
+                <Image 
+                    src={image} 
+                    alt={title}
+                    width={width}
+                    height={height}
+                    loading={loading}
+                    fetchpriority={fetchpriority}
+                    class="w-full h-full object-cover rounded-[32px] shadow-md pointer-events-none select-none"
+                    widths={[400, 600, 800]}
+                    quality={70}
+                />
+            ) : (
+                <img 
+                    src={image} 
+                    alt={title}
+                    class="w-full h-full object-cover rounded-[32px] shadow-md pointer-events-none select-none"
+                    loading={loading}
+                    fetchpriority={fetchpriority}
+                    width={width}
+                    height={height}
+                />
+            )}
+        </a>
+        
+        <a href={url} class="absolute -bottom-4 -right-4 bg-[#333638] text-white w-14 h-14 rounded-full flex items-center justify-center border-[6px] transition-transform group-hover:scale-110 z-20" style={`border-color: ${borderColor};`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width={largeArrow ? "32" : "20"} height={largeArrow ? "32" : "20"} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+        </a>
+    </div>
+    <div class="px-4">
+        <h3 class="text-xl font-bold mb-2" style={`font-family: 'Poppins', sans-serif; color: ${titleColor};`}>
+            <a href={url} class="hover:text-[#333638] transition-colors duration-300">
+                {title}
+            </a>
+        </h3>
+        {description && <p class="text-[#333638] text-sm leading-relaxed" style="font-family: 'Poppins', sans-serif;">{description}</p>}
+    </div>
+</div>

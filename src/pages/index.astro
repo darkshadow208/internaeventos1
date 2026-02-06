@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+import Locaciones from '../components/Locaciones.astro';
+import Navbar from '../components/Navbar.astro';
+
+
+
+import BrandInfo from '../components/BrandInfo.astro';
+import Footer from '../components/Footer.astro';
+import EventGallery from '../components/EventGallery.astro';
+import EventStories from '../components/EventStories.astro';
+
+---
+
+
+
+<Layout title="Home">
+	<Navbar />
+	<main class="min-h-screen">
+		
+	
+	
+		
+
+		
+		<div class="md:my-16"></div>
+
+
+		<div class="md:my-16"></div>
+
+ <EventGallery />
+        <EventStories />
+		<div class="md:my-16"></div>
+
+<Locaciones />
+		<div class="my-0 md:my-10"></div>
+
+       
+
+		<BrandInfo />
+		<Footer />
+	</main>
+</Layout>

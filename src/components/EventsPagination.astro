@@ -1,0 +1,179 @@
+---
+import ServiceCard from './ui/ServiceCard.astro';
+import eventsData from '../data/events.json';
+
+// In Astro, we can't easily pass Astro components to client-side scripts to be rendered dynamically.
+// However, we can use the ServiceCard as a template or render it statically if possible.
+// Since we need functional client-side pagination, and ServiceCard is an Astro component (server-side),
+// we have a few options: 
+// 1. Pass the component's HTML structure to the script (fragile).
+// 2. Use a "hidden" container with pre-rendered cards and show/hide them (good for SEO, easy).
+// 3. Re-implement the ServiceCard logic in JS (redundant).
+
+// Given the user specifically asked to use ServiceCard.astro, 
+// I will render all cards and use JS to handle the pagination visibility.
+---
+
+<section class="bg-[#FDF5E9] py-16 px-4 font-poppins" id="events-section">
+    <div class="max-w-7xl mx-auto">
+        <div id="events-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+            {eventsData.map((event, index) => (
+                <div class="event-card-wrapper hidden flex-col items-center group" data-index={index}>
+                    <h3 class="text-[#4EAC9F] text-lg font-bold text-center mb-6 h-12 flex items-center justify-center max-w-[250px]" style="font-family: 'Poppins', sans-serif;">
+                        <a href={event.url} class="hover:text-[#333638] transition-colors duration-300 block w-full">
+                            {event.title}
+                        </a>
+                    </h3>
+                    
+                    <div class="w-full">
+                        <ServiceCard 
+                            title={event.title}
+                            image={event.image}
+                            url={event.url}
+                        />
+                    </div>
+
+                    
+                    <style is:global>
+                        /* Hide the description and title inside ServiceCard since we have our own */
+                        .event-card-wrapper h3 + div .px-4 {
+                            display: none;
+                        }
+                        /* Adjust the card rounded corners if needed to match image exactly */
+                        .event-card-wrapper img {
+                            border-radius: 40px !important;
+                        }
+                        /* Remove the bottom padding from ServiceCard slide */
+                        .event-card-wrapper .swiper-slide {
+                            padding-bottom: 0 !important;
+                        }
+                    </style>
+                </div>
+            ))}
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-center items-center gap-4 mt-20">
+            <button id="prev-btn" class="text-[#4EAC9F] hover:scale-110 transition-transform disabled:opacity-30 disabled:cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                </svg>
+            </button>
+
+            <div id="pagination-numbers" class="flex gap-2">
+                <!-- Page numbers will be rendered here -->
+            </div>
+
+            <button id="next-btn" class="text-[#4EAC9F] hover:scale-110 transition-transform disabled:opacity-30 disabled:cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</section>
+
+<script>
+    const itemsPerPage = 9;
+    let currentPage = 1;
+    
+    function initPagination() {
+        const wrappers = document.querySelectorAll('.event-card-wrapper');
+        const numItems = wrappers.length;
+        const totalPages = Math.ceil(numItems / itemsPerPage);
+        const section = document.getElementById('events-section');
+        
+        const numbersContainer = document.getElementById('pagination-numbers');
+        const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
+        const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
+
+        function showPage(page: number, shouldScroll = false) {
+            currentPage = page;
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+
+            wrappers.forEach((el, index) => {
+                const wrapper = el as HTMLElement;
+                // Reset animation
+                wrapper.classList.remove('animate-slide-up');
+                
+                if (index >= start && index < end) {
+                    wrapper.classList.remove('hidden');
+                    wrapper.classList.add('flex');
+                    // Add animation with a small delay based on index for staggered effect
+                    // or just all at once. Let's do all at once for the requested "block" effect.
+                    // Doing a small timeout to ensure reflow triggers animation restart
+                    setTimeout(() => {
+                        wrapper.classList.add('animate-slide-up');
+                    }, 10);
+                } else {
+                    wrapper.classList.add('hidden');
+                    wrapper.classList.remove('flex');
+                }
+            });
+
+            updatePaginationUI();
+            
+            if (shouldScroll && section) {
+                 const offsetTop = section.offsetTop - 100; // Adjust offset as needed
+                 window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            }
+        }
+
+        function updatePaginationUI() {
+            if (!numbersContainer) return;
+            numbersContainer.innerHTML = '';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = `w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors font-poppins ${i === currentPage ? 'bg-[#4EAC9F] text-white' : 'bg-[#333638] text-white hover:bg-[#4EAC9F]'}`;
+                btn.innerText = i.toString();
+                btn.onclick = () => showPage(i, true);
+                numbersContainer.appendChild(btn);
+            }
+
+            if (prevBtn) prevBtn.disabled = currentPage === 1;
+            if (nextBtn) prevBtn.disabled = currentPage === totalPages; // Logic error in original? Checking nextBtn but disabling prevBtn? No, wait. 
+            // Original: if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+            if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+        }
+
+        if (prevBtn) {
+            prevBtn.onclick = () => {
+                if (currentPage > 1) showPage(currentPage - 1, true);
+            };
+        }
+
+        if (nextBtn) {
+            nextBtn.onclick = () => {
+                if (currentPage < totalPages) showPage(currentPage + 1, true);
+            };
+        }
+
+        // Initial show without scroll
+        showPage(1, false);
+    }
+
+    // Run on init and after any potential swap
+    initPagination();
+    document.addEventListener('astro:page-load', initPagination);
+</script>
+
+<style>
+    .font-poppins { font-family: 'Poppins', sans-serif; }
+
+    @keyframes slideUpFade {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-slide-up {
+        animation: slideUpFade 0.6s ease-out forwards;
+    }
+</style>

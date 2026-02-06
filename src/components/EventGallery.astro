@@ -1,0 +1,254 @@
+---
+import { Image } from 'astro:assets';
+// Specific Hero Image
+import heroImage from '../assets/images/001_tu_san_agustin_15_anos_mariam_forest_lugares_para_eventos_historias.webp';
+import galleryData from '../data/gallery-data.json';
+
+// Import all images in the assets folder so we can resolve them dynamically
+const allImages = import.meta.glob('../assets/images/*.webp', { eager: true });
+
+// Map the JSON paths to the actual image modules
+const galleryImages = galleryData.mariamEvent.map(imagePath => {
+  const imageModule = allImages[imagePath];
+  if (!imageModule) {
+      console.error(`Image not found: ${imagePath}`);
+      return null;
+  }
+  return (imageModule as any).default;
+}).filter(Boolean);
+
+if (galleryImages.length === 0) {
+    console.warn("No gallery images found. Check JSON paths vs Asset paths.");
+}
+
+
+const youtubeUrl = "https://www.youtube.com/embed/jVkysGzstew?si=bbOY9Csz2ZMcpO9F";
+---
+
+<section class="max-w-7xl mx-auto px-4 md:px-16 py-12">
+  
+  <!-- Header Section (2 Columns) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-16 items-center">
+    
+    <!-- Left Column: Image -->
+    <div class="rounded-3xl overflow-hidden shadow-xl">
+        <Image 
+            src={heroImage} 
+            alt="Mariam 15 Años" 
+            class="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
+            width={800}
+        />
+    </div>
+
+    <!-- Right Column: Text Content -->
+    <div class="flex flex-col items-center justify-center text-center h-full">
+        <h2 class="text-[#4EAC9F] text-2xl md:text-3xl font-bold font-poppins leading-tight mb-4">
+            <span class="block">Historias de Eventos Reales</span>
+            <span class="block">Lugares para Eventos</span>
+            <span class="block">Forest Campestre</span>
+        </h2>
+
+        <!-- Vertical Divider -->
+        <div class="h-12 border-l border-[#EAEAEA] mb-4"></div>
+
+        <!-- Title without Highlight -->
+        <div class="mb-6">
+            <h3 class="text-[#333638] font-bold text-xl font-poppins">
+                Fiesta de 15 Años
+                <span class="block text-xl">Mariam</span>
+            </h3>
+        </div>
+        
+
+    </div>
+  </div>
+
+  <!-- Description Section -->
+  <div class="mb-16">
+      <div class="text-[#333638] font-poppins text-sm md:text-base leading-relaxed max-w-4xl mx-auto text-center relative">
+        <p class="font-bold">
+            Fiesta de 15 años realizada en nuestro sitio con Hermosos senderos, amplios espacios, elegancia y confort hacen parte de las características de Finca Forest en Envigado. Ideal para realizar fiestas y celebraciones llenas de magia y diversión, cuenta con este maravilloso lugar y el mejor servicio de San Agustín.
+        </p>
+        
+        <!-- Arrow Icon -->
+       
+    </div>
+  </div>
+
+  <!-- Video Section -->
+  <div class="w-full max-w-4xl mx-auto mb-16 rounded-3xl overflow-hidden shadow-xl aspect-video relative group">
+     <iframe 
+        width="100%" 
+        height="100%" 
+        src={youtubeUrl} 
+        title="15 Años Forest" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen
+        class="absolute inset-0 w-full h-full"
+    ></iframe>
+  </div>
+
+  <!-- Gallery Section -->
+  <div class="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
+    {galleryImages.map((img, index) => (
+      <div class="gallery-item break-inside-avoid overflow-hidden rounded-xl shadow-md group relative cursor-pointer">
+        <Image 
+          src={img} 
+          alt={`Fiesta 15 años Mariam - Foto ${index + 1}`}
+          width={600}
+          quality={80}
+          class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        <div class="absolute inset-0 bg-[#4EAC9F]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex items-center justify-center">
+             <span class="text-white font-bold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">Ver foto</span>
+        </div>
+      </div>
+    ))}
+  </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div id="gallery-lightbox" class="fixed inset-0 z-50 bg-black/95 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center">
+    
+    <!-- Close Button -->
+    <button id="lightbox-close" class="absolute top-4 right-4 text-white hover:text-[#4EAC9F] transition-colors z-50 p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+
+    <!-- Swiper Container -->
+    <div class="swiper swiperLightbox w-full h-full">
+        <div class="swiper-wrapper">
+            {galleryImages.map((img) => (
+                <div class="swiper-slide !flex !items-center !justify-center w-full h-full">
+                    <img 
+                        src={img.src} 
+                        alt="Gallery Image" 
+                        class="max-h-[90vh] max-w-[90vw] object-contain select-none mx-auto"
+                    />
+                </div>
+            ))}
+        </div>
+        <!-- Navigation Buttons -->
+        <div class="swiper-button-next text-[#4EAC9F]"></div>
+        <div class="swiper-button-prev text-[#4EAC9F]"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+    /* Custom divider line */
+    .border-l {
+        border-left-width: 1px;
+    }
+    
+    .swiper-button-next, .swiper-button-prev {
+        color: #FFFFFF !important; 
+    }
+    
+    @media (max-width: 768px) {
+        .swiper-button-next, .swiper-button-prev {
+            --swiper-navigation-size: 20px;
+        }
+    }
+    .swiper-pagination-bullet-active {
+        background: #4EAC9F !important;
+    }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, Keyboard, Zoom } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+  import 'swiper/css/zoom';
+
+  function initLightbox() {
+    const lightbox = document.getElementById('gallery-lightbox');
+    const closeBtn = document.getElementById('lightbox-close');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    let lightboxSwiper;
+
+    // Debug log
+    console.log('Initializing Lightbox...', { 
+        lightboxFound: !!lightbox, 
+        itemsFound: galleryItems.length 
+    });
+
+    if (!lightbox) return;
+
+    const openLightbox = (index) => {
+        lightbox.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling background
+        
+        requestAnimationFrame(() => {
+            lightbox.classList.remove('opacity-0');
+        });
+
+        if (!lightboxSwiper) {
+            lightboxSwiper = new Swiper('.swiperLightbox', {
+                modules: [Navigation, Pagination, Keyboard, Zoom],
+                initialSlide: index,
+                spaceBetween: 30,
+                slidesPerView: 1,
+                grabCursor: true,
+                zoom: true,
+                keyboard: {
+                    enabled: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    type: 'fraction',
+                },
+            });
+        } else {
+            lightboxSwiper.slideTo(index, 0);
+        }
+    };
+
+    const closeLightbox = () => {
+        lightbox.classList.add('opacity-0');
+        document.body.style.overflow = ''; // Restore scrolling
+        setTimeout(() => {
+            lightbox.classList.add('hidden');
+        }, 300);
+    };
+
+    // Attach click events to gallery items
+    galleryItems.forEach((item, index) => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Gallery item clicked', index);
+            openLightbox(index);
+        });
+    });
+
+    // Close events
+    closeBtn?.addEventListener('click', closeLightbox);
+    
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+            closeLightbox();
+        }
+    });
+  }
+
+  // Run on load
+  if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLightbox);
+  } else {
+      initLightbox();
+  }
+  
+  // Keep support for VT in case it's added later
+  document.addEventListener('astro:page-load', initLightbox);
+</script>

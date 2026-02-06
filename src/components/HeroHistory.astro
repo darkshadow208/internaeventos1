@@ -1,0 +1,100 @@
+---
+import { Image } from 'astro:assets';
+import ServiceCard from './ui/ServiceCard.astro';
+
+// Import images for the clusters - using existing ones as reference
+import imgMain1 from '../assets/images/Screenshot_5_converted.webp';
+import imgSub1_1 from '../assets/images/Screenshot_6_converted.webp';
+import imgSub1_2 from '../assets/images/Screenshot_7_converted.webp';
+import imgSub1_3 from '../assets/images/Screenshot_8_converted.webp';
+
+import imgMain2 from '../assets/images/001_tu_san_agustin_15_anos_mariam_forest_lugares_para_eventos_historias.webp';
+import imgSub2_1 from '../assets/images/Screenshot_1_converted.webp';
+import imgSub2_2 from '../assets/images/Screenshot_2_converted.webp';
+import imgSub2_3 from '../assets/images/Screenshot_3_converted.webp';
+---
+
+<section class="bg-[#FDF5E9] pt-20 pb-16 px-4 font-poppins">
+    <div class="max-w-7xl mx-auto text-center">
+        <!-- Main Title -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-poppins">
+            <span class="text-[#4EAC9F]">Detrás de</span> 
+            <span class="text-[#333638]">cada Evento</span>
+        </h1>
+        
+        <!-- Subtitle -->
+        <h2 class="text-3xl md:text-4xl text-[#4EAC9F] mb-8 font-poppins">
+            Hay una historia
+        </h2>
+
+        <!-- Description -->
+        <p class="max-w-4xl mx-auto text-[#333638] text-lg leading-relaxed mb-10 font-poppins">
+            Revive la magia de bodas, 15 años y celebraciones empresariales. Explora nuestro portafolio de éxitos y descubre las historias detrás de los mejores lugares y locaciones para eventos inolvidables.
+        </p>
+
+        <!-- Testimonials Button -->
+        <div class="inline-flex items-center bg-[#333638] rounded-full px-8 py-3 mb-20 shadow-lg">
+            <span class="text-white font-semibold mr-4">Ver testimonios</span>
+            <div class="flex gap-1">
+                {[...Array(5)].map(() => (
+                    <svg class="w-5 h-5 text-[#FFD700]" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                ))}
+            </div>
+        </div>
+
+        <!-- Clusters -->
+        <div class="grid md:grid-cols-2 gap-12 text-left">
+            <!-- Bodas Cluster -->
+            <div class="space-y-6">
+                <h3 class="text-3xl font-bold text-[#4EAC9F] text-center mb-6 font-poppins">Bodas</h3>
+                <div class="space-y-2">
+                    <!-- Main Big Image -->
+                    <div class="rounded-[32px] overflow-hidden aspect-square shadow-xl">
+                        <Image src={imgMain1} alt="Boda Principal" class="w-full h-full object-cover" />
+                    </div>
+                    <!-- Small Images Grid -->
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="rounded-[16px] overflow-hidden aspect-square shadow-md">
+                            <Image src={imgSub1_1} alt="Boda Detalle 1" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="rounded-[16px] overflow-hidden aspect-square shadow-md">
+                            <Image src={imgSub1_2} alt="Boda Detalle 2" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="rounded-[16px] overflow-hidden aspect-square shadow-md">
+                            <Image src={imgSub1_3} alt="Boda Detalle 3" class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 15 Años Cluster -->
+            <div class="space-y-6">
+                <h3 class="text-3xl font-bold text-[#4EAC9F] text-center mb-6 font-poppins">Fiestas de 15 Años</h3>
+                <div class="space-y-2">
+                    <!-- Main Big Image -->
+                    <div class="rounded-[32px] overflow-hidden aspect-square shadow-xl">
+                        <Image src={imgMain2} alt="15 Años Principal" class="w-full h-full object-cover" />
+                    </div>
+                    <!-- Small Images Grid -->
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="rounded-[16px] overflow-hidden aspect-square shadow-md">
+                            <Image src={imgSub2_1} alt="15 Años Detalle 1" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="rounded-[16px] overflow-hidden aspect-square shadow-md">
+                            <Image src={imgSub2_2} alt="15 Años Detalle 2" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="rounded-[16px] overflow-hidden aspect-square shadow-md">
+                            <Image src={imgSub2_3} alt="15 Años Detalle 3" class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .font-poppins { font-family: 'Poppins', sans-serif; }
+</style>
