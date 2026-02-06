@@ -2,23 +2,12 @@
 import { Image } from 'astro:assets';
 // Specific Hero Image
 import heroImage from '../assets/images/001_tu_san_agustin_15_anos_mariam_forest_lugares_para_eventos_historias.webp';
-import galleryData from '../data/gallery-data.json';
+import { mariamEvent } from '../data/gallery-data.js';
 
-// Import all images in the assets folder so we can resolve them dynamically
-const allImages = import.meta.glob('../assets/images/*.webp', { eager: true });
-
-// Map the JSON paths to the actual image modules
-const galleryImages = galleryData.mariamEvent.map(imagePath => {
-  const imageModule = allImages[imagePath];
-  if (!imageModule) {
-      console.error(`Image not found: ${imagePath}`);
-      return null;
-  }
-  return (imageModule as any).default;
-}).filter(Boolean);
+const galleryImages = mariamEvent;
 
 if (galleryImages.length === 0) {
-    console.warn("No gallery images found. Check JSON paths vs Asset paths.");
+    console.warn("No gallery images found.");
 }
 
 
